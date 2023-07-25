@@ -11,7 +11,7 @@ function EventDetailPage(props) {
 
   if (!event) {
     return (
-      <div className='center'>
+      <div className="center">
         <p>Loading...</p>
       </div>
     );
@@ -34,26 +34,27 @@ function EventDetailPage(props) {
 }
 
 //we'll need the context because we'll need to know for which specific event Id we wanna load the event data.
-export async function getStaticProps(context){
+export async function getStaticProps(context) {
   const eventId = context.params.eventId;
 
   const event = await getEventById(eventId);
 
   return {
-    props:{
+    props: {
       selectedEvent: event
     },
     revalidate: 30
-  }
+  };
 }
 
-export async function getStaticPaths(){
+export async function getStaticPaths() {
   const events = await getFeaturedEvents();
 
-  const paths = events.map(event => ({params: {eventId: event.id}}));
+  const paths = events.map(event => ({ params: { eventId: event.id } }));
+
   return {
-    paths:paths,
-    fallback:true
+    paths: paths,
+    fallback: 'blocking'
     //ここのfallbackを'blocking'にすることも可能
     //その場合はnext.jsはこのページの生成が終わるまでnext.jsは何も提供しない。
     //そうしてリロードするとページの読み込みに少し時間がかかるけど完成したページ全体を最初から取得できる
